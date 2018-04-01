@@ -48,22 +48,66 @@ H1B_1.divisions$EMPLOYER_DIVISION <- as.factor(H1B_1.divisions$EMPLOYER_DIVISION
 H1B_1.divisions$WORKSITE_DIVISION <- as.factor(H1B_1.divisions$WORKSITE_DIVISION)
 
 
-H1B_1 <- H1B_1.divisions[,-c(8,9,19,25)]
-str(H1b_1)  
+H1B_1 <- H1B_1.divisions[,-c(8,9,19,25,26)]
+str(H1B_1)  
 
 #### Do we need to change prevailing wage so that they are on the same scale (this field would be correlated with pw_unit_of_pay)?
 #### There are other int variables that we may need to convert to factors such as postal code or naics_code, but that would make it a variable with more than 53 variables...
 
-
+H1B_1 <- na.omit(H1B_1)
 # Random Forest still wont run, even though str(H1B_1) shows that all factors have < 53 categories...
 h1b1_1.rf <- randomForest(CASE_STATUS ~ ., 
                           proximity=TRUE, importance=TRUE, keep.forest=TRUE,
-                          data = H1B1_1)
+                          data = H1B_1)
 
+# ==============================================================
+# try go parallel
 
-m1 <- J48(CASE_STATUS ~., data = H1B1_1)
-summary(m1)
+# Find out how many cores are available (if you don't already know)
+detectCores()
 
+# Create cluster with desired number of cores
+cl = makeCluster(3)
+
+# Register cluster
+registerDoParallel(cl)
+
+rf.par.out = 
+  foreach(i = 1:3, 
+          .options.RNG = 2827,
+          .packages = 'randomForest', 
+          .inorder = FALSE, 
+          .errorhandling = 'remove') %dorng% 
+  randomForest(CASE_STATUS ~ ., data=H1B_1, importance=TRUE, proximity=TRUE, 
+               ntree=1000, norm.votes=FALSE)
+
+rf.par.combo = combine(rf.par.out[[1]], rf.par.out[[2]], rf.par.out[[3]])
+yhat.par.combo = predict(rf.par.combo, type="response")
+mean(H1B_1$CASE_STATUS != yhat.par.combo)
+mean(yhat.combo != yhat.par.combo)
+
+# microbenchmark(
+#   rf.par.out = 
+#     foreach(i = 1:3, 
+#             .options.RNG = 2827,
+#             .packages = 'randomForest', 
+#             .inorder = FALSE, 
+#             .errorhandling = 'remove') %dorng% 
+#     randomForest(CASE_STATUS ~ ., data=H1B_1, importance=TRUE, proximity=TRUE, 
+#                  ntree=1000, norm.votes=FALSE),
+#   times=5
+# )
+
+# Shutdown cluster neatly
+if(exists("parallelCluster")) {
+  parallel::stopCluster(parallelCluster)
+  parallelCluster = c()
+}
+
+##=======================================================
+
+j48_result <- J48(CASE_STATUS ~., data = H1B_1)
+summary(j48_result)
 #if(require("party", quietly = TRUE)) plot(m1)
 
 
