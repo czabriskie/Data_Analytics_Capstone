@@ -47,17 +47,48 @@ H1B_1.divisions <- H1B_1 %>% arrange(EMPLOYER_STATE) %>%
 H1B_1.divisions$EMPLOYER_DIVISION <- as.factor(H1B_1.divisions$EMPLOYER_DIVISION)
 H1B_1.divisions$WORKSITE_DIVISION <- as.factor(H1B_1.divisions$WORKSITE_DIVISION)
 
-
 H1B_1 <- H1B_1.divisions[,-c(8,9,19,25,26)]
-str(H1B_1)  
+str(H1B_1)
+
+# conv_prevailing_wage <- rep(0,27932)
+# H1B_1 <- cbind(H1B_1, conv_prevailing_wage)
+# 
+# H1B_1$conv_prevailing_wage <- ifelse(H1B_1$PW_UNIT_OF_PAY == "Hour", H1B_1$PREVAILING_WAGE * 40 * 52,
+#                            ifelse(H1B_1$PW_UNIT_OF_PAY == "Week", H1B_1$PREVAILING_WAGE * 52,
+#                              ifelse(H1B_1$PW_UNIT_OF_PAY == "Bi-Weekly", H1B_1$PREVAILING_WAGE * 26,
+#                                     ifelse(H1B_1$PW_UNIT_OF_PAY == "Month", H1B_1$PREVAILING_WAGE * 12,
+#                                         H1B_1$PREVAILING_WAGE))))
+
+H1B_1$PREVAILING_WAGE <- ifelse(H1B_1$PW_UNIT_OF_PAY == "Hour", H1B_1$PREVAILING_WAGE * 40 * 52,
+                               ifelse(H1B_1$PW_UNIT_OF_PAY == "Week", H1B_1$PREVAILING_WAGE * 52,
+                                      ifelse(H1B_1$PW_UNIT_OF_PAY == "Bi-Weekly", H1B_1$PREVAILING_WAGE * 26,
+                                             ifelse(H1B_1$PW_UNIT_OF_PAY == "Month", H1B_1$PREVAILING_WAGE * 12,
+                                                    H1B_1$PREVAILING_WAGE))))
+H1B_1$WAGE_RATE_OF_PAY_FROM <- ifelse(H1B_1$WAGE_UNIT_OF_PAY == "Hour", H1B_1$WAGE_RATE_OF_PAY_FROM * 40 * 52,
+                                     ifelse(H1B_1$WAGE_UNIT_OF_PAY == "Week", H1B_1$WAGE_RATE_OF_PAY_FROM * 52,
+                                            ifelse(H1B_1$WAGE_UNIT_OF_PAY == "Bi-Weekly", H1B_1$WAGE_RATE_OF_PAY_FROM * 26,
+                                                   ifelse(H1B_1$WAGE_UNIT_OF_PAY == "Month", H1B_1$WAGE_RATE_OF_PAY_FROM * 12,
+                                                          H1B_1$WAGE_RATE_OF_PAY_FROM))))
+H1B_1$WAGE_RATE_OF_PAY_TO <- ifelse(H1B_1$WAGE_UNIT_OF_PAY == "Hour", H1B_1$WAGE_RATE_OF_PAY_TO * 40 * 52,
+                                      ifelse(H1B_1$WAGE_UNIT_OF_PAY == "Week", H1B_1$WAGE_RATE_OF_PAY_TO * 52,
+                                             ifelse(H1B_1$WAGE_UNIT_OF_PAY == "Bi-Weekly", H1B_1$WAGE_RATE_OF_PAY_TO * 26,
+                                                    ifelse(H1B_1$WAGE_UNIT_OF_PAY == "Month", H1B_1$WAGE_RATE_OF_PAY_TO * 12,
+                                                           H1B_1$WAGE_RATE_OF_PAY_TO))))
+
+#H1B_1 <- H1B_1.divisions[,-c(14,19)]
+  
 
 #### Do we need to change prevailing wage so that they are on the same scale (this field would be correlated with pw_unit_of_pay)?
 #### There are other int variables that we may need to convert to factors such as postal code or naics_code, but that would make it a variable with more than 53 variables...
 
 H1B_1 <- na.omit(H1B_1)
+# dir <- "G:/My Drive/school/Stats/MDATA Capstone/H1B data"
+# write.csv(H1B_1, file = file.path(dir, "H1B_1.csv"))
+
+
 # Random Forest still wont run, even though str(H1B_1) shows that all factors have < 53 categories...
 h1b1_1.rf <- randomForest(CASE_STATUS ~ ., 
-                          proximity=TRUE, importance=TRUE, keep.forest=TRUE,
+                          proximity=TRUE, importance=TRUE, keep.forest=TRUE, ntree = 5,
                           data = H1B_1)
 
 # ==============================================================
