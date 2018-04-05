@@ -169,6 +169,8 @@ H1B_1.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMI
                                     data = H1B_1)
 H1B_1.conv_wage.rf ##OOB: 22.55%
 
+varImpPlot(H1B_1.conv_wage.rf, main = "Variable Importance of Predicting Case Status")
+
 ### J48
 H1B_1.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                  DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
