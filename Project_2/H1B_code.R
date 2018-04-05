@@ -149,7 +149,7 @@ H1B_1.rf #OOB = 22.62%
 ###################################################################################
 
 # class.sum(H1B_1$CASE_STATUS, predict(H1B_1.rf, type = "prob")[ ,2])
-#### Pcc: 95.350 97.130 92.610  1.454  0.987 ####
+#### Pcc:  ####
 
 #Determine important Variables
 varImpPlot(H1B_1.rf, main = "Variable Importance of Predicting Case Status")
@@ -167,10 +167,10 @@ H1B_1.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMI
                                                   H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                     ntree = 100,
                                     data = H1B_1)
-H1B_1.conv_wage.rf
+H1B_1.conv_wage.rf ##OOB: 22.55%
 
 ### J48
-H1B_1.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_1.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                  DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                  VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                  PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
@@ -178,16 +178,17 @@ H1B_1.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_S
                  H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                  data = H1B_1)
 summary(H1B_1.j48)
+##PCC: 86.3369 %
 
-H1B_1.conv_wage.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_1.conv_wage.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                            DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                            VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                            conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                            conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
-                           H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION
+                           H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                            data = H1B_1)
 summary(H1B_1.conv_wage.j48)
-
+##PCC: 86.1254 %
 
 
 #########################################################
@@ -253,7 +254,7 @@ H1B_2.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH
                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                           ntree = 100,
                           data = H1B_2)
-H1B_2.rf
+H1B_2.rf ##OOB: 22.99%
 
 ### Random Forest - with converted salaries
 H1B_2.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -264,26 +265,26 @@ H1B_2.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMI
                                       H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                     ntree = 100,
                                     data = H1B_2)
-H1B_2.conv_wage.rf
+H1B_2.conv_wage.rf ##OOB: 22.66%
 
 ### J48
-H1B_2.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_2.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                    DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                    VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                    PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                    WAGE_RATE_OF_PAY_FROM + WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
                    H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                  data = H1B_2)
-summary(H1B_2.j48)
+summary(H1B_2.j48) #PCC: 85.1685%
 
-H1B_2.conv_wage.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_2.conv_wage.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                              DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                              VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                              conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                              conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
-                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION
+                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                            data = H1B_2)
-summary(H1B_2.conv_wage.j48)
+summary(H1B_2.conv_wage.j48) ##PCC: 85.3978 %
 
 #########################################################
 # File 3
@@ -347,7 +348,7 @@ H1B_3.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH
                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                           ntree = 100,
                           data = H1B_3)
-H1B_3.rf
+H1B_3.rf ##OOB: 23.26%
 
 ### Random Forest - with converted salaries
 H1B_3.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -358,26 +359,26 @@ H1B_3.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMI
                                       H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                     ntree = 100,
                                     data = H1B_3)
-H1B_3.conv_wage.rf
+H1B_3.conv_wage.rf ##OOB: 77.23%
 
 ### J48
-H1B_3.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_3.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                    DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                    VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                    PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                    WAGE_RATE_OF_PAY_FROM + WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
                    H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                  data = H1B_3)
-summary(H1B_3.j48)
+summary(H1B_3.j48) #PCC: 85.1541%
 
-H1B_3.conv_wage.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_3.conv_wage.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                              DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                              VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                              conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                              conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
-                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION
+                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                            data = H1B_3)
-summary(H1B_3.conv_wage.j48)
+summary(H1B_3.conv_wage.j48) #PCC: 85.2366 %
 
 
 #########################################################
@@ -443,7 +444,7 @@ H1B_4.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH
                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                           ntree = 100,
                           data = H1B_4)
-H1B_4.rf
+H1B_4.rf #OOB: 22.8%
 
 ### Random Forest - with converted salaries
 H1B_4.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -454,26 +455,26 @@ H1B_4.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMI
                                       H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                     ntree = 100,
                                     data = H1B_4)
-H1B_4.conv_wage.rf
+H1B_4.conv_wage.rf #OOB: 22.79%
 
 ### J48
-H1B_4.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_4.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                    DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                    VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                    PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                    WAGE_RATE_OF_PAY_FROM + WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
                    H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                  data = H1B_4)
-summary(H1B_4.j48)
+summary(H1B_4.j48) #PCC:85.6022 %
 
-H1B_4.conv_wage.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_4.conv_wage.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                              DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                              VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                              conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                              conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
-                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION
+                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                            data = H1B_4)
-summary(H1B_4.conv_wage.j48)
+summary(H1B_4.conv_wage.j48) #PCC: 85.7312 %
 
 
 #########################################################
@@ -539,7 +540,7 @@ H1B_5.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH
                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                           ntree = 100,
                           data = H1B_5)
-H1B_5.rf
+H1B_5.rf #OOB: 23.09%
 
 ### Random Forest - with converted salaries
 H1B_5.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -550,26 +551,26 @@ H1B_5.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMI
                                       H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                     ntree = 100,
                                     data = H1B_5)
-H1B_5.conv_wage.rf
+H1B_5.conv_wage.rf #OOB: 22.65%
 
 ### J48
-H1B_5.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_5.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                    DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                    VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                    PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                    WAGE_RATE_OF_PAY_FROM + WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
                    H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                  data = H1B_5)
-summary(H1B_5.j48)
+summary(H1B_5.j48) #PCC: 86.1004 %
 
-H1B_5.conv_wage.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_5.conv_wage.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                              DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                              VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                              conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                              conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
-                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION
+                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                            data = H1B_5)
-summary(H1B_5.conv_wage.j48)
+summary(H1B_5.conv_wage.j48) #PCC: 85.8566 %
 
 
 #########################################################
@@ -634,7 +635,7 @@ H1B_6.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH
                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                           ntree = 100,
                           data = H1B_6)
-H1B_6.rf
+H1B_6.rf #OOB: 22.65%
 
 ### Random Forest - with converted salaries
 H1B_6.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -645,26 +646,26 @@ H1B_6.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMI
                                       H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                     ntree = 100,
                                     data = H1B_6)
-H1B_6.conv_wage.rf
+H1B_6.conv_wage.rf #OOB: 22.85%
 
 ### J48
-H1B_6.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_6.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                    DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                    VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                    PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                    WAGE_RATE_OF_PAY_FROM + WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
                    H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                  data = H1B_6)
-summary(H1B_6.j48)
+summary(H1B_6.j48) #PCC: 85.362  %
 
-H1B_6.conv_wage.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_6.conv_wage.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                              DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                              VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                              conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                              conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
-                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION
+                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                            data = H1B_6)
-summary(H1B_6.conv_wage.j48)
+summary(H1B_6.conv_wage.j48) #PCC: 85.4265 %
 
 
 
@@ -730,7 +731,7 @@ H1B_7.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH
                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                           ntree = 100,
                           data = H1B_7)
-H1B_7.rf
+H1B_7.rf ##OOB: 22.85%
 
 ### Random Forest - with converted salaries
 H1B_7.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -741,26 +742,26 @@ H1B_7.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMI
                                       H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                     ntree = 100,
                                     data = H1B_7)
-H1B_7.conv_wage.rf
+H1B_7.conv_wage.rf ##OOB: 22.79%
 
 ### J48
-H1B_7.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_7.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                    DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                    VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                    PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                    WAGE_RATE_OF_PAY_FROM + WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
                    H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                  data = H1B_7)
-summary(H1B_7.j48)
+summary(H1B_7.j48) #PCC: 85.021  %
 
-H1B_7.conv_wage.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_7.conv_wage.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                              DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                              VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                              conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                              conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
-                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION
+                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                            data = H1B_7)
-summary(H1B_7.conv_wage.j48)
+summary(H1B_7.conv_wage.j48) #PCC: 85.0389 %
 
 
 #########################################################
@@ -826,7 +827,7 @@ H1B_8.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH
                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                           ntree = 100,
                           data = H1B_8)
-H1B_8.rf
+H1B_8.rf ##OOB: 23.14%
 
 ### Random Forest - with converted salaries
 H1B_8.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -837,26 +838,26 @@ H1B_8.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMI
                                       H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                     ntree = 100,
                                     data = H1B_8)
-H1B_8.conv_wage.rf
+H1B_8.conv_wage.rf ##OOB: 23.07%
 
 ### J48
-H1B_8.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_8.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                    DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                    VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                    PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                    WAGE_RATE_OF_PAY_FROM + WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
                    H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                  data = H1B_8)
-summary(H1B_8.j48)
+summary(H1B_8.j48) #PCC: 85.4014 %
 
-H1B_8.conv_wage.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_8.conv_wage.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                              DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                              VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                              conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                              conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
-                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION
+                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                            data = H1B_8)
-summary(H1B_8.conv_wage.j48)
+summary(H1B_8.conv_wage.j48) #PCC: 85.6703 %
 
 
 #########################################################
@@ -922,7 +923,7 @@ H1B_9.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH
                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                           ntree = 100,
                           data = H1B_9)
-H1B_9.rf
+H1B_9.rf #OOB: 23.14%
 
 ### Random Forest - with converted salaries
 H1B_9.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -933,26 +934,26 @@ H1B_9.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMI
                                       H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                     ntree = 100,
                                     data = H1B_9)
-H1B_9.conv_wage.rf
+H1B_9.conv_wage.rf #OOB: 22.91%
 
 ### J48
-H1B_9.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_9.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                    DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                    VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                    PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                    WAGE_RATE_OF_PAY_FROM + WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
                    H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                  data = H1B_9)
-summary(H1B_9.j48)
+summary(H1B_9.j48) #PCC: 84.9892 %
 
-H1B_9.conv_wage.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_9.conv_wage.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                              DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                              VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                              conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                              conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
-                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION
+                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                            data = H1B_9)
-summary(H1B_9.conv_wage.j48)
+summary(H1B_9.conv_wage.j48) #PCC: 84.9928 %
 
 
 #########################################################
@@ -1018,7 +1019,7 @@ H1B_10.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONT
                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                           ntree = 100,
                           data = H1B_10)
-H1B_10.rf
+H1B_10.rf ##OOB: 22.82%
 
 ### Random Forest - with converted salaries
 H1B_10.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -1029,25 +1030,25 @@ H1B_10.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBM
                                       H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                     ntree = 100,
                                     data = H1B_10)
-H1B_10.conv_wage.rf
+H1B_10.conv_wage.rf #OOB: 22.69%
 
 ### J48
-H1B_10.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_10.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                    DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                    VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                    PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                    WAGE_RATE_OF_PAY_FROM + WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
                    H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                  data = H1B_10)
-summary(H1B_10.j48)
+summary(H1B_10.j48) #PCC: 85.7916 %
 
-H1B_10.conv_wage.j48 <- J48(CASE_STATUS ~CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+H1B_10.conv_wage.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                              DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
                              VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
                              conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
                              conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
-                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION
+                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                            data = H1B_10)
-summary(H1B_10.conv_wage.j48)
+summary(H1B_10.conv_wage.j48) #PCC: 85.4332 %
 
              
