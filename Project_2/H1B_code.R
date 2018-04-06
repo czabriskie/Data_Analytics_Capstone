@@ -193,8 +193,160 @@ summary(H1B_1.conv_wage.j48)
 ##PCC: 86.1254 %
 
 
+
+##############################################
+# Divide data into training and testing sets #
+##############################################
+
+############ 80/20 split ############
+set.seed(12345)
+H1B_1.samp.80 <- sample(1:nrow(H1B_1), nrow(H1B_1)*(.8), replace = FALSE)
+train.H1B_1.80 <- H1B_1[H1B_1.samp.80, ]
+test.H1B_1.80 <- H1B_1[-H1B_1.samp.80, ]
+
+### Random Forest - without converted salaries
+H1B_1.samp80.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+                                              DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
+                                              VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
+                                              PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
+                                              WAGE_RATE_OF_PAY_FROM + WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
+                                              H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
+                                 ntree = 100,
+                                 data = train.H1B_1.80)
+H1B_1.samp80.rf #OOB = 23.51%
+
+#Determine important Variables
+varImpPlot(H1B_1.samp80.rf, main = "Variable Importance of Predicting Case Status")
+
+H1B_1.samp80.rf.pred <- predict(H1B_1.samp80.rf, newdata = test.H1B_1.80)
+table(H1B_1.samp80.rf.pred, test.H1B_1.80$CASE_STATUS)
+(1147 + 1341 + 849 + 983) / nrow(test.H1B_1.80)
+#PCC: 77.41%
+
+
+
+### Random Forest - with converted salaries
+H1B_1.conv_wage.samp80.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+                                     DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
+                                     VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
+                                     conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
+                                     conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
+                                     H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
+                                   ntree = 100,
+                                   data = train.H1B_1.80)
+H1B_1.conv_wage.samp80.rf ##OOB: 23.3%
+
+varImpPlot(H1B_1.conv_wage.samp80.rf, main = "Variable Importance of Predicting Case Status")
+
+H1B_1.conv_wage.samp80.rf.pred <- predict(H1B_1.conv_wage.samp80.rf, newdata = test.H1B_1.80)
+table(H1B_1.conv_wage.samp80.rf.pred, test.H1B_1.80$CASE_STATUS)
+(1158 + 1328 + 856 + 983) / nrow(test.H1B_1.80)
+#PCC: 77.51%
+
+### J48
+H1B_1.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+                                      DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
+                                      VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
+                                      PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
+                                      WAGE_RATE_OF_PAY_FROM + WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
+                                      H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
+                        data = train.H1B_1.80)
+summary(H1B_1.samp80.j48)
+H1B_1.samp80.j48.pred <- predict(H1B_1.samp80.j48, newdata = test.H1B_1.80)
+table(H1B_1.samp80.j48.pred, test.H1B_1.80$CASE_STATUS)
+(1128 + 1280 + 838 + 875) / nrow(test.H1B_1.80)
+##PCC: 73.85%
+
+H1B_1.conv_wage.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+                                                DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
+                                                VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
+                                                conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
+                                                conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
+                                                H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
+                                  data = train.H1B_1.80)
+summary(H1B_1.conv_wage.samp80.j48)
+H1B_1.conv_wage.samp80.j48.pred <- predict(H1B_1.conv_wage.samp80.j48, newdata = test.H1B_1.80)
+table(H1B_1.conv_wage.samp80.j48.pred, test.H1B_1.80$CASE_STATUS)
+(1120 + 1282 + 842 + 866) / nrow(test.H1B_1.80)
+##PCC: 73.66%
+
+
+############ 66/34 split ############
+set.seed(12345)
+H1B_1.samp.66 <- sample(1:nrow(H1B_1), nrow(H1B_1)*(.66), replace = FALSE)
+train.H1B_1.66 <- H1B_1[H1B_1.samp.66, ]
+test.H1B_1.66 <- H1B_1[-H1B_1.samp.66, ]
+
+### Random Forest - without converted salaries
+H1B_1.samp66.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+                                  DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
+                                  VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
+                                  PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
+                                  WAGE_RATE_OF_PAY_FROM + WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
+                                  H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
+                                ntree = 100,
+                                data = train.H1B_1.66)
+H1B_1.samp66.rf #OOB = 23.94%
+
+#Determine important Variables
+varImpPlot(H1B_1.samp66.rf, main = "Variable Importance of Predicting Case Status")
+
+H1B_1.samp66.rf.pred <- predict(H1B_1.samp66.rf, newdata = test.H1B_1.66)
+table(H1B_1.samp66.rf.pred, test.H1B_1.66$CASE_STATUS)
+(1960 + 2226 + 1431 + 1667) / nrow(test.H1B_1.66)
+#PCC: 76.79%
+
+
+### Random Forest - with converted salaries
+H1B_1.conv_wage.samp66.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+                                            DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
+                                            VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
+                                            conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
+                                            conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
+                                            H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
+                                          ntree = 100,
+                                          data = train.H1B_1.66)
+H1B_1.conv_wage.samp66.rf ##OOB: 24.07%
+
+varImpPlot(H1B_1.conv_wage.samp66.rf, main = "Variable Importance of Predicting Case Status")
+
+H1B_1.conv_wage.samp66.rf.pred <- predict(H1B_1.conv_wage.samp66.rf, newdata = test.H1B_1.66)
+table(H1B_1.conv_wage.samp66.rf.pred, test.H1B_1.66$CASE_STATUS)
+(1990 + 2231 + 1448 + 1653) / nrow(test.H1B_1.66)
+#PCC: 77.19%
+
+### J48
+H1B_1.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+                          DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
+                          VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
+                          PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
+                          WAGE_RATE_OF_PAY_FROM + WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
+                          H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
+                        data = train.H1B_1.66)
+summary(H1B_1.samp66.j48)
+H1B_1.samp66.j48.pred <- predict(H1B_1.samp66.j48, newdata = test.H1B_1.66)
+table(H1B_1.samp66.j48.pred, test.H1B_1.66$CASE_STATUS)
+(1895 + 2173 + 1328 + 1516) / nrow(test.H1B_1.66)
+##PCC: 72.87%
+
+H1B_1.conv_wage.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
+                                    DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
+                                    VISA_CLASS + EMPLOYER_COUNTRY + SOC_NAME + NAICS_CODE + TOTAL_WORKERS + FULL_TIME_POSITION +
+                                    conv_PREVAILING_WAGE + PW_UNIT_OF_PAY + PW_SOURCE + PW_SOURCE_YEAR + 
+                                    conv_WAGE_RATE_OF_PAY_FROM + conv_WAGE_RATE_OF_PAY_TO + WAGE_UNIT_OF_PAY +
+                                    H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
+                                  data = train.H1B_1.66)
+summary(H1B_1.conv_wage.samp66.j48)
+H1B_1.conv_wage.samp66.j48.pred <- predict(H1B_1.conv_wage.samp66.j48, newdata = test.H1B_1.66)
+table(H1B_1.conv_wage.samp66.j48.pred, test.H1B_1.66$CASE_STATUS)
+(1894 + 2176 + 1332 + 1483) / nrow(test.H1B_1.66)
+##PCC: 72.58%
+
+
+
+
 #########################################################
-# File 2
+# File 2                                                #
 #########################################################
 H1B_2[H1B_2$SOC_NAME %in% c("MANAGERS","MANAGEMENT","FIRST LINE SUPERVISORS"), 11] <- "MANAGEMENT"
 H1B_2[H1B_2$SOC_NAME %in% c("GRAPHIC DESIGNERS","FASHION DESIGNERS","DESIGNERS"), 11] <- "DESIGNERS"
