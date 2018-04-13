@@ -509,8 +509,8 @@ H1B_2.conv_wage.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMIT
 summary(H1B_2.conv_wage.samp80.j48)
 H1B_2.conv_wage.samp80.j48.pred <- predict(H1B_2.conv_wage.samp80.j48, newdata = test.H1B_2.80)
 table(H1B_2.conv_wage.samp80.j48.pred, test.H1B_2.80$CASE_STATUS)
-(1168 + 1262 + 779 + 286) / nrow(test.H1B_2.80)
-##PCC: 62.63%
+(1168 + 1262 + 779 + 902) / nrow(test.H1B_2.80)
+##PCC: 73.67%
 
 
 ############ 66/34 split ############
@@ -701,8 +701,8 @@ H1B_3.samp80.rf #OOB = 23.09%
 
 H1B_3.samp80.rf.pred <- predict(H1B_3.samp80.rf, newdata = test.H1B_3.80)
 table(H1B_3.samp80.rf.pred, test.H1B_3.80$CASE_STATUS)
-(1154 + 1303 + 884 + 872) / nrow(test.H1B_3.80)
-#PCC: 75.50%
+(1154 + 1303 + 884 + 972) / nrow(test.H1B_3.80)
+#PCC: 77.29%
 
 
 
@@ -800,8 +800,8 @@ H1B_3.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH 
 summary(H1B_3.samp66.j48)
 H1B_3.samp66.j48.pred <- predict(H1B_3.samp66.j48, newdata = test.H1B_3.66)
 table(H1B_3.samp66.j48.pred, test.H1B_3.66$CASE_STATUS)
-(1907 + 2133 + 1241 + 521) / nrow(test.H1B_3.66)
-##PCC: 61.16%
+(1907 + 2133 + 1241 + 1489) / nrow(test.H1B_3.66)
+##PCC: 71.37%
 
 H1B_3.conv_wage.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                                     DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
@@ -1644,8 +1644,8 @@ H1B_7.samp80.rf #OOB = 22.75%
 
 H1B_7.samp80.rf.pred <- predict(H1B_7.samp80.rf, newdata = test.H1B_7.80)
 table(H1B_7.samp80.rf.pred, test.H1B_7.80$CASE_STATUS)
-(1188 + 1313 + 880 + 850) / nrow(test.H1B_7.80)
-#PCC: 75.82%
+(1188 + 1313 + 880 + 950) / nrow(test.H1B_7.80)
+#PCC: 77.61649%
 
 
 
@@ -1708,15 +1708,12 @@ H1B_7.samp66.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTE
                                   H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                                 ntree = 500,
                                 data = train.H1B_7.66)
-H1B_7.samp66.rf #OOB = %
-
-#Determine important Variables
-varImpPlot(H1B_7.samp66.rf, main = "Variable Importance of Predicting Case Status")
+H1B_7.samp66.rf #OOB = 22.91%
 
 H1B_7.samp66.rf.pred <- predict(H1B_7.samp66.rf, newdata = test.H1B_7.66)
 table(H1B_7.samp66.rf.pred, test.H1B_7.66$CASE_STATUS)
-# (1960 + 2226 + 1431 + 1667) / nrow(test.H1B_7.66)
-#PCC: %
+(2012 + 2201 + 1471 + 1605) / nrow(test.H1B_7.66)
+#PCC: 76.83955 %
 
 
 ### Random Forest - with converted salaries
@@ -1728,14 +1725,12 @@ H1B_7.conv_wage.samp66.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CAS
                                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                           ntree = 500,
                                           data = train.H1B_7.66)
-H1B_7.conv_wage.samp66.rf ##OOB: %
-
-varImpPlot(H1B_7.conv_wage.samp66.rf, main = "Variable Importance of Predicting Case Status")
+H1B_7.conv_wage.samp66.rf ##OOB: 22.77%
 
 H1B_7.conv_wage.samp66.rf.pred <- predict(H1B_7.conv_wage.samp66.rf, newdata = test.H1B_7.66)
 table(H1B_7.conv_wage.samp66.rf.pred, test.H1B_7.66$CASE_STATUS)
-# (1990 + 2231 + 1448 + 1653) / nrow(test.H1B_7.66)
-#PCC: %
+(2010 + 2194 + 1479 + 1588) / nrow(test.H1B_7.66)
+#PCC:76.6498 %
 
 ### J48
 H1B_7.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -1748,8 +1743,8 @@ H1B_7.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH 
 summary(H1B_7.samp66.j48)
 H1B_7.samp66.j48.pred <- predict(H1B_7.samp66.j48, newdata = test.H1B_7.66)
 table(H1B_7.samp66.j48.pred, test.H1B_7.66$CASE_STATUS)
-# (1895 + 2173 + 1328 + 1516) / nrow(test.H1B_7.66)
-##PCC: %
+(1873 + 2119 + 1307 + 1419) / nrow(test.H1B_7.66)
+##PCC: 70.82016%
 
 H1B_7.conv_wage.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                                     DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
@@ -1761,8 +1756,8 @@ H1B_7.conv_wage.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMIT
 summary(H1B_7.conv_wage.samp66.j48)
 H1B_7.conv_wage.samp66.j48.pred <- predict(H1B_7.conv_wage.samp66.j48, newdata = test.H1B_7.66)
 table(H1B_7.conv_wage.samp66.j48.pred, test.H1B_7.66$CASE_STATUS)
-# (1894 + 2176 + 1332 + 1483) / nrow(test.H1B_7.66)
-##PCC: %
+(1925 + 2136 + 1312 + 1443) / nrow(test.H1B_7.66)
+##PCC:71.85326 %
 
 
 
@@ -1880,15 +1875,12 @@ H1B_8.samp80.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTE
                                   H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                                 ntree = 500,
                                 data = train.H1B_8.80)
-H1B_8.samp80.rf #OOB = %
-
-#Determine important Variables
-varImpPlot(H1B_8.samp80.rf, main = "Variable Importance of Predicting Case Status")
+H1B_8.samp80.rf #OOB = 22.81%
 
 H1B_8.samp80.rf.pred <- predict(H1B_8.samp80.rf, newdata = test.H1B_8.80)
 table(H1B_8.samp80.rf.pred, test.H1B_8.80$CASE_STATUS)
-# (1147 + 1341 + 849 + 983) / nrow(test.H1B_8.80)
-#PCC: %
+(1178 + 1331 + 881 + 906) / nrow(test.H1B_8.80)
+#PCC: 76.98925%
 
 
 
@@ -1901,14 +1893,12 @@ H1B_8.conv_wage.samp80.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CAS
                                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                           ntree = 500,
                                           data = train.H1B_8.80)
-H1B_8.conv_wage.samp80.rf ##OOB: %
-
-varImpPlot(H1B_8.conv_wage.samp80.rf, main = "Variable Importance of Predicting Case Status")
+H1B_8.conv_wage.samp80.rf ##OOB: 22.61%
 
 H1B_8.conv_wage.samp80.rf.pred <- predict(H1B_8.conv_wage.samp80.rf, newdata = test.H1B_8.80)
 table(H1B_8.conv_wage.samp80.rf.pred, test.H1B_8.80$CASE_STATUS)
-# (1158 + 1328 + 856 + 983) / nrow(test.H1B_8.80)
-#PCC: %
+(1181 + 1335 + 882 + 914) / nrow(test.H1B_8.80)
+#PCC:77.27599 %
 
 ### J48
 H1B_8.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -1921,8 +1911,8 @@ H1B_8.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH 
 summary(H1B_8.samp80.j48)
 H1B_8.samp80.j48.pred <- predict(H1B_8.samp80.j48, newdata = test.H1B_8.80)
 table(H1B_8.samp80.j48.pred, test.H1B_8.80$CASE_STATUS)
-# (1128 + 1280 + 838 + 875) / nrow(test.H1B_8.80)
-##PCC: %
+(1140 + 1289 + 787 + 828) / nrow(test.H1B_8.80)
+##PCC: 72.47312%
 
 H1B_8.conv_wage.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                                     DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
@@ -1934,8 +1924,8 @@ H1B_8.conv_wage.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMIT
 summary(H1B_8.conv_wage.samp80.j48)
 H1B_8.conv_wage.samp80.j48.pred <- predict(H1B_8.conv_wage.samp80.j48, newdata = test.H1B_8.80)
 table(H1B_8.conv_wage.samp80.j48.pred, test.H1B_8.80$CASE_STATUS)
-# (1120 + 1282 + 842 + 866) / nrow(test.H1B_8.80)
-##PCC: %
+(1140 + 1287 + 793 + 821) / nrow(test.H1B_8.80)
+##PCC:72.41935 %
 
 
 ############ 66/34 split ############
@@ -1953,15 +1943,12 @@ H1B_8.samp66.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTE
                                   H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                                 ntree = 500,
                                 data = train.H1B_8.66)
-H1B_8.samp66.rf #OOB = %
-
-#Determine important Variables
-varImpPlot(H1B_8.samp66.rf, main = "Variable Importance of Predicting Case Status")
+H1B_8.samp66.rf #OOB = 23.35%
 
 H1B_8.samp66.rf.pred <- predict(H1B_8.samp66.rf, newdata = test.H1B_8.66)
 table(H1B_8.samp66.rf.pred, test.H1B_8.66$CASE_STATUS)
-# (1960 + 2226 + 1431 + 1667) / nrow(test.H1B_8.66)
-#PCC: %
+(2001 + 2208 + 1485 + 1559) / nrow(test.H1B_8.66)
+#PCC: 76.46005%
 
 
 ### Random Forest - with converted salaries
@@ -1973,14 +1960,12 @@ H1B_8.conv_wage.samp66.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CAS
                                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                           ntree = 500,
                                           data = train.H1B_8.66)
-H1B_8.conv_wage.samp66.rf ##OOB: %
-
-varImpPlot(H1B_8.conv_wage.samp66.rf, main = "Variable Importance of Predicting Case Status")
+H1B_8.conv_wage.samp66.rf ##OOB: 23.04%
 
 H1B_8.conv_wage.samp66.rf.pred <- predict(H1B_8.conv_wage.samp66.rf, newdata = test.H1B_8.66)
 table(H1B_8.conv_wage.samp66.rf.pred, test.H1B_8.66$CASE_STATUS)
-# (1990 + 2231 + 1448 + 1653) / nrow(test.H1B_8.66)
-#PCC: %
+(2019 + 2212 + 1499 + 1562) / nrow(test.H1B_8.66)
+#PCC:76.87118 %
 
 ### J48
 H1B_8.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -1993,8 +1978,8 @@ H1B_8.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH 
 summary(H1B_8.samp66.j48)
 H1B_8.samp66.j48.pred <- predict(H1B_8.samp66.j48, newdata = test.H1B_8.66)
 table(H1B_8.samp66.j48.pred, test.H1B_8.66$CASE_STATUS)
-# (1895 + 2173 + 1328 + 1516) / nrow(test.H1B_8.66)
-##PCC: %
+(1898 + 2176 + 1314 + 1371) / nrow(test.H1B_8.66)
+##PCC: 71.25237%
 
 H1B_8.conv_wage.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                                     DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
@@ -2006,8 +1991,8 @@ H1B_8.conv_wage.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMIT
 summary(H1B_8.conv_wage.samp66.j48)
 H1B_8.conv_wage.samp66.j48.pred <- predict(H1B_8.conv_wage.samp66.j48, newdata = test.H1B_8.66)
 table(H1B_8.conv_wage.samp66.j48.pred, test.H1B_8.66$CASE_STATUS)
-# (1894 + 2176 + 1332 + 1483) / nrow(test.H1B_8.66)
-##PCC: %
+(1914 + 2185 + 1303 + 1370) / nrow(test.H1B_8.66)
+##PCC: 71.38942%
 
 
 
@@ -2074,7 +2059,7 @@ H1B_9.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH
                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                           ntree = 100,
                           data = H1B_9)
-H1B_9.rf #OOB: 23.14%
+H1B_9.rf #OOB: 22.99%
 
 ### Random Forest - with converted salaries
 H1B_9.conv_wage.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -2125,15 +2110,12 @@ H1B_9.samp80.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTE
                                   H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                                 ntree = 500,
                                 data = train.H1B_9.80)
-H1B_9.samp80.rf #OOB = %
-
-#Determine important Variables
-varImpPlot(H1B_9.samp80.rf, main = "Variable Importance of Predicting Case Status")
+H1B_9.samp80.rf #OOB = 22.63%
 
 H1B_9.samp80.rf.pred <- predict(H1B_9.samp80.rf, newdata = test.H1B_9.80)
 table(H1B_9.samp80.rf.pred, test.H1B_9.80$CASE_STATUS)
-# (1147 + 1341 + 849 + 983) / nrow(test.H1B_9.80)
-#PCC: %
+(1167 + 1279 + 891 + 951) / nrow(test.H1B_9.80)
+#PCC: 76.84588%
 
 
 
@@ -2146,14 +2128,12 @@ H1B_9.conv_wage.samp80.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CAS
                                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                           ntree = 500,
                                           data = train.H1B_9.80)
-H1B_9.conv_wage.samp80.rf ##OOB: %
-
-varImpPlot(H1B_9.conv_wage.samp80.rf, main = "Variable Importance of Predicting Case Status")
+H1B_9.conv_wage.samp80.rf ##OOB: 22.5%
 
 H1B_9.conv_wage.samp80.rf.pred <- predict(H1B_9.conv_wage.samp80.rf, newdata = test.H1B_9.80)
 table(H1B_9.conv_wage.samp80.rf.pred, test.H1B_9.80$CASE_STATUS)
-# (1158 + 1328 + 856 + 983) / nrow(test.H1B_9.80)
-#PCC: %
+(1173 + 1276 + 902 + 946) / nrow(test.H1B_9.80)
+#PCC: 77.00717%
 
 ### J48
 H1B_9.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -2166,8 +2146,8 @@ H1B_9.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH 
 summary(H1B_9.samp80.j48)
 H1B_9.samp80.j48.pred <- predict(H1B_9.samp80.j48, newdata = test.H1B_9.80)
 table(H1B_9.samp80.j48.pred, test.H1B_9.80$CASE_STATUS)
-# (1128 + 1280 + 838 + 875) / nrow(test.H1B_9.80)
-##PCC: %
+(1118 + 1249 + 785 + 860) / nrow(test.H1B_9.80)
+##PCC: 71.89964%
 
 H1B_9.conv_wage.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                                     DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
@@ -2179,8 +2159,8 @@ H1B_9.conv_wage.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMIT
 summary(H1B_9.conv_wage.samp80.j48)
 H1B_9.conv_wage.samp80.j48.pred <- predict(H1B_9.conv_wage.samp80.j48, newdata = test.H1B_9.80)
 table(H1B_9.conv_wage.samp80.j48.pred, test.H1B_9.80$CASE_STATUS)
-# (1120 + 1282 + 842 + 866) / nrow(test.H1B_9.80)
-##PCC: %
+(1112 + 1240 + 781 + 862) / nrow(test.H1B_9.80)
+##PCC: 71.59498%
 
 
 ############ 66/34 split ############
@@ -2198,15 +2178,12 @@ H1B_9.samp66.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTE
                                   H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                                 ntree = 500,
                                 data = train.H1B_9.66)
-H1B_9.samp66.rf #OOB = %
-
-#Determine important Variables
-varImpPlot(H1B_9.samp66.rf, main = "Variable Importance of Predicting Case Status")
+H1B_9.samp66.rf #OOB = 22.68%
 
 H1B_9.samp66.rf.pred <- predict(H1B_9.samp66.rf, newdata = test.H1B_9.66)
 table(H1B_9.samp66.rf.pred, test.H1B_9.66$CASE_STATUS)
-# (1960 + 2226 + 1431 + 1667) / nrow(test.H1B_9.66)
-#PCC: %
+(2015 + 2174 + 1496 + 1568) / nrow(test.H1B_9.66)
+#PCC: 76.46005%
 
 
 ### Random Forest - with converted salaries
@@ -2218,14 +2195,12 @@ H1B_9.conv_wage.samp66.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CAS
                                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                           ntree = 500,
                                           data = train.H1B_9.66)
-H1B_9.conv_wage.samp66.rf ##OOB: %
-
-varImpPlot(H1B_9.conv_wage.samp66.rf, main = "Variable Importance of Predicting Case Status")
+H1B_9.conv_wage.samp66.rf ##OOB: 22.73%
 
 H1B_9.conv_wage.samp66.rf.pred <- predict(H1B_9.conv_wage.samp66.rf, newdata = test.H1B_9.66)
 table(H1B_9.conv_wage.samp66.rf.pred, test.H1B_9.66$CASE_STATUS)
-# (1990 + 2231 + 1448 + 1653) / nrow(test.H1B_9.66)
-#PCC: %
+(1997 + 2175 + 1511 + 1555) / nrow(test.H1B_9.66)
+#PCC: 76.30192%
 
 ### J48
 H1B_9.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -2238,8 +2213,8 @@ H1B_9.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH 
 summary(H1B_9.samp66.j48)
 H1B_9.samp66.j48.pred <- predict(H1B_9.samp66.j48, newdata = test.H1B_9.66)
 table(H1B_9.samp66.j48.pred, test.H1B_9.66$CASE_STATUS)
-# (1895 + 2173 + 1328 + 1516) / nrow(test.H1B_9.66)
-##PCC: %
+(1919 + 2114 + 1278 + 1358) / nrow(test.H1B_9.66)
+##PCC: 70.30361%
 
 H1B_9.conv_wage.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                                     DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
@@ -2251,8 +2226,8 @@ H1B_9.conv_wage.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMIT
 summary(H1B_9.conv_wage.samp66.j48)
 H1B_9.conv_wage.samp66.j48.pred <- predict(H1B_9.conv_wage.samp66.j48, newdata = test.H1B_9.66)
 table(H1B_9.conv_wage.samp66.j48.pred, test.H1B_9.66$CASE_STATUS)
-# (1894 + 2176 + 1332 + 1483) / nrow(test.H1B_9.66)
-##PCC: %
+(1919 + 2114 + 1263 + 1368) / nrow(test.H1B_9.66)
+##PCC: 70.2509%
 
 
 
@@ -2371,15 +2346,12 @@ H1B_10.samp80.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITT
                                   H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                                 ntree = 500,
                                 data = train.H1B_10.80)
-H1B_10.samp80.rf #OOB = %
-
-#Determine important Variables
-varImpPlot(H1B_10.samp80.rf, main = "Variable Importance of Predicting Case Status")
+H1B_10.samp80.rf #OOB = 22.70%
 
 H1B_10.samp80.rf.pred <- predict(H1B_10.samp80.rf, newdata = test.H1B_10.80)
 table(H1B_10.samp80.rf.pred, test.H1B_10.80$CASE_STATUS)
-# (1147 + 1341 + 849 + 983) / nrow(test.H1B_10.80)
-#PCC: %
+(1210 + 1329 + 865 + 966) / nrow(test.H1B_10.80)
+#PCC: 78.31541%
 
 
 
@@ -2392,14 +2364,12 @@ H1B_10.conv_wage.samp80.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CA
                                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                           ntree = 500,
                                           data = train.H1B_10.80)
-H1B_10.conv_wage.samp80.rf ##OOB: %
-
-varImpPlot(H1B_10.conv_wage.samp80.rf, main = "Variable Importance of Predicting Case Status")
+H1B_10.conv_wage.samp80.rf ##OOB: 22.38%
 
 H1B_10.conv_wage.samp80.rf.pred <- predict(H1B_10.conv_wage.samp80.rf, newdata = test.H1B_10.80)
 table(H1B_10.conv_wage.samp80.rf.pred, test.H1B_10.80$CASE_STATUS)
-# (1158 + 1328 + 856 + 983) / nrow(test.H1B_10.80)
-#PCC: %
+(1218 + 1328 + 862 + 957) / nrow(test.H1B_10.80)
+#PCC: 78.22581%
 
 ### J48
 H1B_10.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -2412,8 +2382,8 @@ H1B_10.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH
 summary(H1B_10.samp80.j48)
 H1B_10.samp80.j48.pred <- predict(H1B_10.samp80.j48, newdata = test.H1B_10.80)
 table(H1B_10.samp80.j48.pred, test.H1B_10.80$CASE_STATUS)
-# (1128 + 1280 + 838 + 875) / nrow(test.H1B_10.80)
-##PCC: %
+(1153 + 1283 + 763 + 873) / nrow(test.H1B_10.80)
+##PCC: 72.97491%
 
 H1B_10.conv_wage.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                                     DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
@@ -2425,8 +2395,8 @@ H1B_10.conv_wage.samp80.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMI
 summary(H1B_10.conv_wage.samp80.j48)
 H1B_10.conv_wage.samp80.j48.pred <- predict(H1B_10.conv_wage.samp80.j48, newdata = test.H1B_10.80)
 table(H1B_10.conv_wage.samp80.j48.pred, test.H1B_10.80$CASE_STATUS)
-# (1120 + 1282 + 842 + 866) / nrow(test.H1B_10.80)
-##PCC: %
+(1139 + 1269 + 822 + 931) / nrow(test.H1B_10.80)
+##PCC: 74.56989%
 
 
 ############ 66/34 split ############
@@ -2444,15 +2414,12 @@ H1B_10.samp66.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITT
                                   H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION, 
                                 ntree = 500,
                                 data = train.H1B_10.66)
-H1B_10.samp66.rf #OOB = %
-
-#Determine important Variables
-varImpPlot(H1B_10.samp66.rf, main = "Variable Importance of Predicting Case Status")
+H1B_10.samp66.rf #OOB = 23.00%
 
 H1B_10.samp66.rf.pred <- predict(H1B_10.samp66.rf, newdata = test.H1B_10.66)
 table(H1B_10.samp66.rf.pred, test.H1B_10.66$CASE_STATUS)
-# (1960 + 2226 + 1431 + 1667) / nrow(test.H1B_10.66)
-#PCC: %
+(2018 + 2204 + 1481 + 1655) / nrow(test.H1B_10.66)
+#PCC: 77.56694%
 
 
 ### Random Forest - with converted salaries
@@ -2464,14 +2431,12 @@ H1B_10.conv_wage.samp66.rf <- randomForest(CASE_STATUS ~ CASE_SUBMITTED_DAY + CA
                                             H.1B_DEPENDENT + WILLFUL_VIOLATOR + EMPLOYER_DIVISION + WORKSITE_DIVISION,
                                           ntree = 500,
                                           data = train.H1B_10.66)
-H1B_10.conv_wage.samp66.rf ##OOB: %
-
-varImpPlot(H1B_10.conv_wage.samp66.rf, main = "Variable Importance of Predicting Case Status")
+H1B_10.conv_wage.samp66.rf ##OOB: 22.65%
 
 H1B_10.conv_wage.samp66.rf.pred <- predict(H1B_10.conv_wage.samp66.rf, newdata = test.H1B_10.66)
 table(H1B_10.conv_wage.samp66.rf.pred, test.H1B_10.66$CASE_STATUS)
-# (1990 + 2231 + 1448 + 1653) / nrow(test.H1B_10.66)
-#PCC: %
+(2020 + 2204 + 1491 + 1631) / nrow(test.H1B_10.66)
+#PCC: 77.44044%
 
 ### J48
 H1B_10.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
@@ -2484,8 +2449,8 @@ H1B_10.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH
 summary(H1B_10.samp66.j48)
 H1B_10.samp66.j48.pred <- predict(H1B_10.samp66.j48, newdata = test.H1B_10.66)
 table(H1B_10.samp66.j48.pred, test.H1B_10.66$CASE_STATUS)
-# (1895 + 2173 + 1328 + 1516) / nrow(test.H1B_10.66)
-##PCC: %
+(1909 + 2118 + 1306 + 1484) / nrow(test.H1B_10.66)
+##PCC: 71.8638%
 
 H1B_10.conv_wage.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMITTED_MONTH + CASE_SUBMITTED_YEAR + 
                                     DECISION_DAY + DECISION_MONTH + DECISION_YEAR + 
@@ -2497,7 +2462,7 @@ H1B_10.conv_wage.samp66.j48 <- J48(CASE_STATUS ~ CASE_SUBMITTED_DAY + CASE_SUBMI
 summary(H1B_10.conv_wage.samp66.j48)
 H1B_10.conv_wage.samp66.j48.pred <- predict(H1B_10.conv_wage.samp66.j48, newdata = test.H1B_10.66)
 table(H1B_10.conv_wage.samp66.j48.pred, test.H1B_10.66$CASE_STATUS)
-# (1894 + 2176 + 1332 + 1483) / nrow(test.H1B_10.66)
-##PCC: %
+(1929 + 2102 + 1293 + 1485) / nrow(test.H1B_10.66)
+##PCC: 71.77946%
 
              
